@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title> 渲染一棵二叉树 </title>
+    <!-- 经常加载不成功，下载个本地的放这里 -->
+    <!--<script src="https://unpkg.com/vue/dist/vue.js"></script>-->
+    <script src="./vue.js"></script>
+    <style rel="stylesheet">
+
+        /* 二叉树展示 */
+        .node {
+            text-align: center;
+        }
+        .node .value {
+            position: relative;
+            z-index: 2;
+            display: inline-block;
+            border-radius: 50%;
+            line-height: 20px;
+            width: 20px;
+            height: 20px;
+            background: #c7c7c7;
+            margin: 10px;
+        }
+        .node .con-left-right {
+            display: flex;
+        }
+        .node .left .line,
+        .node .right .line {
+            position: relative;
+            z-index: 1;
+            width: 50%;
+            height: 20px;
+            border-top: 1px solid #c7c7c7;
+        }
+        .node .left > .line {
+            border-left: 1px solid #c7c7c7;
+            margin: -20px 0 -10px 50%;
+        }
+        .node .right > .line {
+            border-right: 1px solid #c7c7c7;
+            margin: -20px 0 -10px 0;
+        }
+        .node .left,
+        .node .right {
+            flex: 1;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <node :node-data="nodeData"></node>
+</div>
+
+<script type="text/x-template" id="node">
+    <div class="node">
+        <div class="value">{{nodeData.value}}</div>
+        <div class="con-left-right">
+            <div class="left">
+                <div v-if="leftNodeData !== null" class="line"></div>
+                <node v-if="leftNodeData !== null"
+                      :node-data="leftNodeData"></node>
+            </div>
+            <div class="right">
+                <div v-if="rightNodeData !== null" class="line"></div>
+                <node v-if="rightNodeData !== null"
+                      :node-data="rightNodeData"></node>
+            </div>
+        </div>
+    </div>
+</script>
+<script src="./get-node.js"></script>
+<script>
+
+    Vue.component('node', {
+        name: 'node',
+        template: '#node',
+        props: ['nodeData'],
+        data: function () {
+            // 左节点数据兼容
+            var leftNodeData = null;
+            if (this.nodeData.leftKey !== null) {
+                var t = getNode(this.nodeData.leftKey);
+                if (t !== undefined) {
+                    leftNodeData = t;
+                }
+            }
+            // 右节点数据兼容
+            var rightNodeData = null;
+            if (this.nodeData.rightKey !== null) {
+                var t = getNode(this.nodeData.rightKey);
+                if (t !== undefined) {
+                    rightNodeData = t;
+                }
+            }
+            return {
+                leftNodeData: leftNodeData,
+                rightNodeData: rightNodeData
+            };
+        }
+    });
+
+    var app = new Vue({
+        components: {},
+        el: '#app',
+        data: {
+            // getNode 函数来自 get-node.js，模拟二级存储的提取操作
+            nodeData: getNode()
+        }
+    });
+</script>
+</body>
+</html>

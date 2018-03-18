@@ -1,114 +1,75 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title> 渲染一棵二叉树 </title>
-    <!-- 经常加载不成功，下载个本地的放这里 -->
-    <!--<script src="https://unpkg.com/vue/dist/vue.js"></script>-->
-    <script src="./vue.js"></script>
-    <style rel="stylesheet">
-
-        /* 二叉树展示 */
-        .node {
-            text-align: center;
-        }
-        .node .value {
-            position: relative;
-            z-index: 2;
-            display: inline-block;
-            border-radius: 50%;
-            line-height: 20px;
-            width: 20px;
-            height: 20px;
-            background: #c7c7c7;
-            margin: 10px;
-        }
-        .node .con-left-right {
-            display: flex;
-        }
-        .node .left .line,
-        .node .right .line {
-            position: relative;
-            z-index: 1;
-            width: 50%;
-            height: 20px;
-            border-top: 1px solid #c7c7c7;
-        }
-        .node .left > .line {
-            border-left: 1px solid #c7c7c7;
-            margin: -20px 0 -10px 50%;
-        }
-        .node .right > .line {
-            border-right: 1px solid #c7c7c7;
-            margin: -20px 0 -10px 0;
-        }
-        .node .left,
-        .node .right {
-            flex: 1;
-        }
-    </style>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
 </head>
 <body>
-<div id="app">
-    <node :node-data="nodeData"></node>
-</div>
+	多边形<br>
+	<svg width="320px" height="320px">
+		<defs>
+			<polygon id="star" points="0 -10 2 -2 10 0 2 2 0 10 -2 2 -10 0 -2 -2" fill="blue"></polygon>
+		</defs>
+		<g id="star-group" transform="translate(10, 10)">
+		</g>
+	</svg>
 
-<script type="text/x-template" id="node">
-    <div class="node">
-        <div class="value">{{nodeData.value}}</div>
-        <div class="con-left-right">
-            <div class="left">
-                <div v-if="leftNodeData !== null" class="line"></div>
-                <node v-if="leftNodeData !== null"
-                      :node-data="leftNodeData"></node>
-            </div>
-            <div class="right">
-                <div v-if="rightNodeData !== null" class="line"></div>
-                <node v-if="rightNodeData !== null"
-                      :node-data="rightNodeData"></node>
-            </div>
-        </div>
-    </div>
-</script>
-<script src="./get-node.js"></script>
-<script>
+	绘制弧线<br>
+	<!-- (rx ry x-axis-rotation large-arc-flag sweep-flag x y)+ -->
+	<svg width="320px" height="320px">
+			<path d="M 0 100
+					 A 100 100 20 0 1 200 100
+					 M 0 100
+					 A 100 100 20 0 0 200 100"
+					 stroke="black" fill="green" stroke-width="2" fill-opacity="0.5"/>
+		  </svg>
+		  <br>
+		  贝塞尔曲线<br>
+			  二次<br>
+			  三次<br>
+		  文字<br>
+		  <svg xmlns="http://www.w3.org/2000/svg">
+			  <defs>
+				  <pattern id="grid" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+					  <path stroke="#F00" fill="none" d="M 0 0 H 20 V 20"></path>
+				  </pattern>
+			  </defs>
+			  <rect width="300" height="300" fill="url(#grid)"></rect>
+			  <!-- <text x="40" y="40" font-size="20px" dx="0 20 40" dy="0 20 40">你好hello</text> -->
+			  <text x="40" y="40" font-size="20px" dx="0 20" dy="0 20"><tspan fill="red">你</tspan><tspan stroke="blue" stroke-width="1" fill="none">好</tspan></text>
+			  <!-- <text x="40" y="40" font-size="20px" dx="0 20" dy="0 20"><tspan fill="red" dy="-20">你</tspan><tspan stroke="blue" stroke-width="1" fill="none" dy="-20">好</tspan></text> -->
+		  </svg><br>
+		  路径文本<br>
 
-    Vue.component('node', {
-        name: 'node',
-        template: '#node',
-        props: ['nodeData'],
-        data: function () {
-            // 左节点数据兼容
-            var leftNodeData = null;
-            if (this.nodeData.leftKey !== null) {
-                var t = getNode(this.nodeData.leftKey);
-                if (t !== undefined) {
-                    leftNodeData = t;
-                }
-            }
-            // 右节点数据兼容
-            var rightNodeData = null;
-            if (this.nodeData.rightKey !== null) {
-                var t = getNode(this.nodeData.rightKey);
-                if (t !== undefined) {
-                    rightNodeData = t;
-                }
-            }
-            return {
-                leftNodeData: leftNodeData,
-                rightNodeData: rightNodeData
-            };
-        }
-    });
+		  垂直居中<br>
+		  <svg>
+			  <path d="M 0 100 h 200 M 100 0 v 200" stroke="red" fill="none"/>
+			  <text id="text" x="100" y="100">你好</text>
+			  <rect id="rect" stroke="blue" fill="none"></rect>
+		  </svg>
+		  <script>
+			  var SVG_NS = 'http://www.w3.org/2000/svg';
+			  var XLINK_NS = 'http://www.w3.org/1999/xlink';
+			  var starGroup = document.getElementById('star-group');
+			  var _use = document.createElementNS(SVG_NS, 'use');
+			  _use.setAttributeNS(XLINK_NS, 'xlink:href', '#star');
+			  _use.setAttribute('opacity', 0.5);
+			  starGroup.appendChild(_use);
 
-    var app = new Vue({
-        components: {},
-        el: '#app',
-        data: {
-            // getNode 函数来自 get-node.js，模拟二级存储的提取操作
-            nodeData: getNode()
-        }
-    });
-</script>
+			  var text = document.getElementById('text');
+			  var rect = document.getElementById('rect');
+			  var box = text.getBBox();
+			  console.log(box);
+			  rect.setAttribute('x', box.x);
+			  rect.setAttribute('y', box.y);
+			  rect.setAttribute('width', box.width);
+			  rect.setAttribute('height', box.height);
+			  text.setAttribute ('text-anchor', 'center'); // start end center
+			  text.setAttribute('dominant-baseline', 'auto');
+			  console.log(text.getAttribute('text-anchor'))
+		  </script>
 </body>
+
 </html>
