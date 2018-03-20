@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>使用 img 标签引用 SVG 图片</title>
+    <style>
+        p {
+            /*float: left;*/
+        }
+    </style>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            /*background: #EFEFEF;*/
+        }
+
+        #bg {
+            width: 400px;
+            height: 400px;
+            background: white url(simple.svg) repeat;
+            box-shadow: rgba(0, 0, 0, .5) 2px 3px 10px;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>1、在 HTML 中使用 <img> 标签引用 </h1>
+    <p><img src="simple.svg" />原始大小</p>
+    <p><img src="simple.svg" width="50" height="50" />50 x 50</p>
+    <p><img src="simple.svg" width="400" height="400" />400 x 400</p>
+
+    <h1>2、作为 CSS 背景 </h1>
+    <div id="bg"></div>
+
+    <h1>3、在网页中直接使用 SVG 标签</h1>
+    <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="200" height="200">
+            <!--Face-->
+            <circle cx="100" cy="100" r="90" fill="#39F" />
+            <!--Eyes-->
+            <circle cx="70" cy="80" r="20" fill="white" />
+            <circle cx="130" cy="80" r="20" fill="white" />
+            <circle cx="65" cy="75" r="10" fill="black" />
+            <circle cx="125" cy="75" r="10" fill="black" />
+            <!--Smile-->
+            <path d="M 50 140 A 60 60 0 0 0 150 140" stroke="white" stroke-width="3" fill="none" />
+        </svg>
+
+    </p>
+
+    <h1>基本图形和属性</h1>
+    <img src="basic.svg" style="width:100%;height:300px;">
+    <h1>基本操作APIdemo</h1>
+    <div id="box" style="width: 100%; height:300px;border:1px solid blue"></div>
+
+    <!--<svg xmlns="http://www.w3.org/2000/svg" style="position:absolute;left:0;top:0;width:100%;height:3000px;">
+        <defs>
+            <pattern id="grid" x="0" y="0" width="10" height="10" patternUnits="userSpaceOnUse">
+                <path stroke="#F00" fill="none" d="M 0 0 H 10 V 10"></path>
+            </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#grid)"></rect>
+    </svg>-->
+</body>
+<script>
+    create();
+
+    function create() {
+        var SVG_NS = 'http://www.w3.org/2000/svg';
+        var svg = document.createElementNS(SVG_NS, 'svg');
+        svg.setAttribute('width', '100%');
+        svg.setAttribute('height', '100%');
+        var rect = document.createElementNS(SVG_NS, 'rect');
+        svg.appendChild(rect);
+        var attr = {
+            x: 100,
+            y: 50,
+            rx: 0,
+            ry: 0,
+            width: 200,
+            height: 100,
+            fill: "#FFB3AE",
+            stroke: "#971817",
+            strokeWidth: "1",
+            transform: "rotate(30)"
+        };
+        for (var name in attr) {
+            rect.setAttribute(name, attr[name]);
+        }
+        var box = document.getElementById('box');
+        box.appendChild(svg);
+    }
+</script>
+
+</html>

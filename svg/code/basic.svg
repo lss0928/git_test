@@ -52,4 +52,17 @@
         fill="yellow"
         transform="translate(150 0)">
     </polygon>
+
+    <!--<rect 
+        x="200"
+        y="200"
+        rx="0"
+        ry="0"
+        width="150" 
+        height="100"
+        fill="#FFB3AE"
+        stroke="#971817" 
+        strokeWidth="10"
+        transform="rotate(30)">
+    </rect>-->
 </svg>
