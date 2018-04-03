@@ -1,0 +1,1 @@
+document.write('hello run1.js');
